@@ -1,10 +1,10 @@
 import de_bruijn as dbg
 
-#fname = 'g200reads.fa'
-#reads = db.read_reads(fname)
+filename = 'short.fasta'
+reads = dbg.read_reads(filename)
 
-test = ['aaabbbba']
-g = dbg.deBruijn(test, 2)
+test = ['aaabbbba', 'bbbbaaabb', 'baaabaa']
+g = dbg.deBruijn(reads, 60)
 dbg.print_graph(g)
 
 contig = dbg.eulerian_path_search(g)
