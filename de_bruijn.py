@@ -43,7 +43,6 @@ def deBruijn(leituras, kmers):
 def eulerian_path_search(graph):
     Vert = graph[0]
     Ares = graph[1]
-
     start = list(Vert.keys())[0]
     for k in list(Vert.keys()):
         if Vert[k].entrada < Vert[start].entrada:
@@ -60,6 +59,20 @@ def eulerian_path_search(graph):
         atual = next.nome
 
     return contig
+
+# Realiza a leitura das reads a partir de um arquivo com o formato FASTA. 
+def read_reads(filename):
+    f = open(filename, 'r')
+    linhas = f.readlines()
+    f.close()
+    reads = []
+
+    for linha in linhas:
+        if linha[0] != '>':
+            reads = reads + [linha.rstrip()]
+
+    return reads
+
 
 #Imprimir o grafo
 def print_graph(graph):
