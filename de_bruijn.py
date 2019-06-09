@@ -66,9 +66,41 @@ def print_graph(graph):
     Vert = graph[0]
     Arest = graph[1]
 
+    print(Arest.keys())
+
     for k in list(Vert.keys()):
         print("nome: ", Vert[k].nome, ". entrada: ", Vert[k].entrada, ". saida: ", Vert[k].saida)
-        print("Arestas: ")
+        print("Arestas para: ")
         for e in Arest[k]:
             print(e.nome)
-        print()
+
+# Realiza a remoção das tips.
+# Observar se possui algum vértice ( diferente do inicio ) que não possui conexão de entrada
+# com nenhum outro vertice. De forma que ele seja uma nova fonte, dai remove ele.
+# Como a remoção é de suposto segundo fonte, então não há problemas.
+def removeTips(graph):
+    Vert = graph[0]     # obtemos os vertices
+    Arest = graph[1]    # obtemos as arestas do grafo#
+    lista = list(Vert.keys())
+
+    rem_vert = []
+    rem_ares = []
+    
+    for index, k in enumerate(list(Vert.keys())):             # percorre cada vertice
+        if k != lista[0] and Vert[k].entrada == 0:  # verifica se não é o fonte e se possui grau de entrada 0
+            #Verificar os vértices que possuem alguma conexão para dar baixa
+            
+            rem_ares.append(k)    # remove arestas referente ao vértice
+            rem_vert.append(k)
+    
+    for i in rem_ares:
+        for e in Arest[i]:
+            print(e.nome)
+            for k in list(Vert.keys()):     # percorre cada vertice
+                if e.nome == k :            # verfica se o vetor atual vai para o vertice que se deseja excluir
+                    Vert[k].entrada -= 1          # diminui o grau de entrada do vertice atual (considerar exclusão).
+        del Vert[i]
+
+    for i in rem_ares:
+        del Arest[i]
+    
