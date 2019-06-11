@@ -1,6 +1,7 @@
 import de_bruijn as dbg
+import sys
 
-filename = 'short.fasta'
+filename = sys.argv[1]#'short.fasta'
 reads = dbg.read_reads(filename)
 
 #test = ['aabbbba', 'ybb']
