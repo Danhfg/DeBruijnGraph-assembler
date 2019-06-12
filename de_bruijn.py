@@ -1,4 +1,5 @@
 import read_data as read_data
+import collections
 
 class Vertice:
     def __init__(no, nome_):
@@ -12,8 +13,8 @@ class Aresta:
 
 # Realiza a construção do de Bruijn Graph conforme apresentado, realizando leitura de k-mers.
 def deBruijn(leituras, kmers):
-    arestas = dict()
-    vertices = dict()
+    arestas = collections.OrderedDict()
+    vertices = collections.OrderedDict()
 
     for leitura in leituras:
         i = 0
@@ -108,7 +109,7 @@ def removeTips(graph):
     
     for i in rem_ares:
         for e in Arest[i]:
-            print(e.nome)
+            #print(e.nome)
             for k in list(Vert.keys()):     # percorre cada vertice
                 if e.nome == k :            # verfica se o vetor atual vai para o vertice que se deseja excluir
                     Vert[k].entrada -= 1          # diminui o grau de entrada do vertice atual (considerar exclusão).
