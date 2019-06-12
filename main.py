@@ -3,8 +3,9 @@ import sys
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
+from memory_profiler import LogFile
 
-@profile
+@profile()
 def main():
     filename = sys.argv[1]#'short.fasta'
     reads = dbg.read_reads(filename)
@@ -21,3 +22,4 @@ def main():
 if __name__ == '__main__':
     if len(sys.argv) > 2:
         main()
+        sys.stdout = LogFile('memory_profile_log')
