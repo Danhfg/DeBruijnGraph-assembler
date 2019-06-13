@@ -47,33 +47,8 @@ def eulerian_path_search(graph):
     Vert = graph[0]
     Ares = graph[1]
 
-    tour = []
-    src = list(Vert.keys())[0] # pegar um nó arbitrário
-
     start = list(Vert.keys())[0]
-    for k in list(Vert.keys()):
-        if Vert[k].entrada < Vert[start].entrada:
-            start = k
-
-    def __visit(n):
-        while (len(Ares[n])) > 0:
-            no = Ares[n][0]
-            del Ares[n]
-            __visit(no)
-        tour += [n]
-
-    __visit(src)
-    tour = tour[::-1][:-1]  #trocar e obter todos os nós menos o último
-
-    
-
-    sti = tour.index(start)
-    tour = tour[sti:] + tour[:sti]
-
-    return list(map(str,tour))
-"""
-    
-    start = list(Vert.keys())[0]
+    # Realiza a busca pelo nó que possui o menor grau de entrada
     for k in list(Vert.keys()):
         if Vert[k].entrada < Vert[start].entrada:
             start = k
@@ -81,12 +56,12 @@ def eulerian_path_search(graph):
     tour = start
     atual = start
 
-    #Retornar o próximo vertice
+    #Visita os nós
     while len(Ares[atual]) > 0:
         next = Ares[atual][0]
         del Ares[atual][0]
         tour += next.nome[-1]
-        atual = next.nome"""
+        atual = next.nome
 
 
 # Realiza a leitura das reads a partir de um arquivo com o formato FASTA. 
