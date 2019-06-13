@@ -1,4 +1,5 @@
 import read_data as read_data
+import collections
 
 class Vertice:
     def __init__(no, nome_):
@@ -12,8 +13,8 @@ class Aresta:
 
 # Realiza a construção do de Bruijn Graph conforme apresentado, realizando leitura de k-mers.
 def deBruijn(leituras, kmers):
-    arestas = dict()
-    vertices = dict()
+    arestas = collections.OrderedDict()
+    vertices = collections.OrderedDict()
 
     for leitura in leituras:
         i = 0
@@ -41,9 +42,24 @@ def deBruijn(leituras, kmers):
 
 #Realiza a busca do caminho euleriano no grafo
 def eulerian_path_search(graph):
+    
+
     Vert = graph[0]
     Ares = graph[1]
-    start = list(Vert.keys())[0]
+
+    tour = []
+    src = list(Vert.keys())[0] # pegar um nó arbitrário
+
+    def __visit(n):
+        while (len(Ares[n])) > 0:
+            no = Ares[n][0].pop()
+            __visit(no)
+        tour.append(n)
+
+    __visit(src)
+    tour = tour[::-1][:-1]  #trocar e obter todos os nós menos o último
+    
+    """start = list(Vert.keys())[0]
     for k in list(Vert.keys()):
         if Vert[k].entrada < Vert[start].entrada:
             start = k
@@ -56,9 +72,9 @@ def eulerian_path_search(graph):
         next = Ares[atual][0]
         del Ares[atual][0]
         contig += next.nome[-1]
-        atual = next.nome
+        atual = next.nome"""
 
-    return contig
+    return 
 
 # Realiza a leitura das reads a partir de um arquivo com o formato FASTA. 
 def read_reads(filename):
@@ -112,7 +128,7 @@ def removeTips(graph):
     
     for i in rem_ares:
         for e in Arest[i]:
-            qnt_ares += 1
+            #print(e.nome)
             for k in list(Vert.keys()):     # percorre cada vertice
                 if e.nome == k :            # verfica se o vetor atual vai para o vertice que se deseja excluir
                     Vert[k].entrada -= 1          # diminui o grau de entrada do vertice atual (considerar exclusão).
