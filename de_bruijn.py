@@ -47,20 +47,30 @@ def eulerian_path_search(graph):
     Vert = graph[0]
     Ares = graph[1]
 
-    """tour = []
+    tour = []
     src = list(Vert.keys())[0] # pegar um nó arbitrário
+
+    start = list(Vert.keys())[0]
+    for k in list(Vert.keys()):
+        if Vert[k].entrada < Vert[start].entrada:
+            start = k
 
     def __visit(n):
         while (len(Ares[n])) > 0:
             no = Ares[n][0]
             del Ares[n]
             __visit(no)
-        tour.append(n)
+        tour += [n]
 
     __visit(src)
     tour = tour[::-1][:-1]  #trocar e obter todos os nós menos o último
 
-    sti = tour.index()
+    
+
+    sti = tour.index(start)
+    tour = tour[sti:] + tour[:sti]
+
+    return list(map(str,tour))
 """
     
     start = list(Vert.keys())[0]
@@ -76,9 +86,8 @@ def eulerian_path_search(graph):
         next = Ares[atual][0]
         del Ares[atual][0]
         tour += next.nome[-1]
-        atual = next.nome
+        atual = next.nome"""
 
-    return tour
 
 # Realiza a leitura das reads a partir de um arquivo com o formato FASTA. 
 def read_reads(filename):
