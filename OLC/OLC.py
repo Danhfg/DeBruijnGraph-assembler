@@ -23,7 +23,6 @@ class Aresta:
         self.v1 = v1
         self.v2 = v2
 
-
 class OLC:
     def __init__(self,reads):
         self.Vertices = {}
@@ -41,10 +40,15 @@ class OLC:
             else:
                 self.Vertices[0] = (Vertice(read))
 
-olc = OLC(["AGCCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTC", 
+@profile
+def main():
+    olc = OLC(["AGCCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTC", 
             "GCCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCG", 
             "CCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCGT"])
-#print(olc.Vertices[0].seq)
-#for colnum, edge in enumerate(edges):
-#    print()
-print(olc.Arestas)
+    #print(olc.Vertices[0].seq)
+    #for colnum, edge in enumerate(edges):
+    #    print()
+    #print(olc.Arestas)
+
+if __name__ == '__main__':
+    main()

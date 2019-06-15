@@ -42,52 +42,24 @@ def deBruijn(leituras, kmers):
 
 #Realiza a busca do caminho euleriano no grafo
 def eulerian_path_search(graph):
-    
-
     Vert = graph[0]
     Ares = graph[1]
-
-    tour = []
-    src = list(Vert.keys())[0] # pegar um nó arbitrário
-
     start = list(Vert.keys())[0]
     for k in list(Vert.keys()):
         if Vert[k].entrada < Vert[start].entrada:
             start = k
 
-    def __visit(n):
-        while (len(Ares[n])) > 0:
-            no = Ares[n][0]
-            del Ares[n]
-            __visit(no)
-        tour += [n]
-
-    __visit(src)
-    tour = tour[::-1][:-1]  #trocar e obter todos os nós menos o último
-
-    
-
-    sti = tour.index(start)
-    tour = tour[sti:] + tour[:sti]
-
-    return list(map(str,tour))
-"""
-    
-    start = list(Vert.keys())[0]
-    for k in list(Vert.keys()):
-        if Vert[k].entrada < Vert[start].entrada:
-            start = k
-
-    tour = start
+    contig = start
     atual = start
 
     #Retornar o próximo vertice
     while len(Ares[atual]) > 0:
         next = Ares[atual][0]
         del Ares[atual][0]
-        tour += next.nome[-1]
-        atual = next.nome"""
+        contig += next.nome[-1]
+        atual = next.nome
 
+    return contig
 
 # Realiza a leitura das reads a partir de um arquivo com o formato FASTA. 
 def read_reads(filename):
@@ -108,18 +80,18 @@ def print_graph(graph):
     Vert = graph[0]
     Arest = graph[1]
 
+    print(Arest.keys())
 
     for k in list(Vert.keys()):
         print("nome: ", Vert[k].nome, ". entrada: ", Vert[k].entrada, ". saida: ", Vert[k].saida)
         print("Arestas para: ")
-        #for e in Arest[k]:
-            #print(e.nome)
+        for e in Arest[k]:
+            print(e.nome)
 
 # Realiza a remoção das tips.
 # Observar se possui algum vértice ( diferente do inicio ) que não possui conexão de entrada
 # com nenhum outro vertice. De forma que ele seja uma nova fonte, dai remove ele.
-# Como a remoção é do suposto segundo fonte, então não há problemas.
-
+# Como a remoção é de suposto segundo fonte, então não há problemas.
 def removeTips(graph):
     Vert = graph[0]     # obtemos os vertices
     Arest = graph[1]    # obtemos as arestas do grafo#
@@ -128,16 +100,12 @@ def removeTips(graph):
     rem_vert = []
     rem_ares = []
     
-    
     for index, k in enumerate(list(Vert.keys())):             # percorre cada vertice
         if k != lista[0] and Vert[k].entrada == 0:  # verifica se não é o fonte e se possui grau de entrada 0
             #Verificar os vértices que possuem alguma conexão para dar baixa
             
-            #adiciona os vértices a ser removidos
-            rem_ares.append(k)
+            rem_ares.append(k)    # remove arestas referente ao vértice
             rem_vert.append(k)
-
-    qnt_ares = 0
     
     for i in rem_ares:
         for e in Arest[i]:
