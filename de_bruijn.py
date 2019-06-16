@@ -43,7 +43,6 @@ def deBruijn(leituras, kmers):
 #Realiza a busca do caminho euleriano no grafo
 def eulerian_path_search(graph):
     
-
     Vert = graph[0]
     Ares = graph[1]
 
@@ -56,12 +55,14 @@ def eulerian_path_search(graph):
     tour = start
     atual = start
 
-    #Visita os nós
+    #Visita os nós de forma a ir gerando o grau de entrada
     while len(Ares[atual]) > 0:
-        next = Ares[atual][0]
-        del Ares[atual][0]
-        tour += next.nome[-1]
-        atual = next.nome
+        next = Ares[atual][0]           # obtem o próximo nó
+        del Ares[atual][0]              # remove ele do dicionário, marcar que foi visitado
+        tour += next.nome[-1]           # adiciona o nó ao caminho
+        atual = next.nome               # atualiza o nó atual
+
+    return tour
 
 
 # Realiza a leitura das reads a partir de um arquivo com o formato FASTA. 
