@@ -27,11 +27,13 @@ class OLC:
     def __init__(self,reads):
         self.Vertices = {}
         self.Arestas = []
-        reads = read_data("short.fasta")
+        self.length = 0
+        #reads = read_data("short.fasta")
         for read in reads:
             if self.Vertices != {}:
                 aux = len(self.Vertices.keys())
                 self.Vertices[aux] = (Vertice(read))
+                self.length += 1
                 i = 0 
                 for v in self.Vertices.keys():
                     if (self.Vertices[v].seq != self.Vertices[aux].seq and pairwise2.align.globalxx(self.Vertices[v].seq, read, score_only=True) > len(read)*0.7):
@@ -39,47 +41,60 @@ class OLC:
                     i+=1
             else:
                 self.Vertices[0] = (Vertice(read))
+                self.length += 1
+        self.Arestas.append((self.length-1, 0))
+        self.length += 1
 
-        find_hamiltonian_path([self.Vertices, self.Arestas])
+        #find_hamiltonian_path([self.Vertices, self.Arestas])
+        self.ham = True
+        self.caminho_ham = self.find_hamiltonian_path()
 
-def isHamiltonian(vert):
-    for e in vert:
-        if e.marcado == false:
-            return false
-    return true
+    def find_hamiltonian_path(self):
+        # Escolhe um vértice inicial
+        path = [0]
+        choosed = 0
+        print(self.length)
 
-def find_hamiltonian_path(graph):
-    # Escolhe um vértice inicial
-    Vertices = graph[0]
-    path = []
-    # coloca todos os vertices como não marcados
-    for e in Vertices:
-        e.marcado = false
-
-    # as arestas não possuem pesos, logo podemos assumir tudo 1, ou seja,
-    # basta pegar o primeiro vértice que ele possui ligação. 
-
-    Arestas = graph[1]
-    choosed = Vertices[0]
-    while isHamiltonian(Vertices) != true:
-        next_ = choosed
-        for aresta in Arestas[choosed]:
-            # marca o vertice que já foi percorrido
-            for vert in vertices:
-                if vert == aresta.v1:
-                    vert.marcado = true
-                    next_ = aresta.v2
-                    path.append(vert)       #adiciona ao caminho o vértice marcado
-        #seleciona um vértice que possui ligação com ele.
-        
-    return path
+        while len(path) < self.length:          # termina quando o ciclo for hamiltoniano
+            aux = len(path)
+            for a in self.Arestas:
+                print(a, choosed)
+                if(a[0] == choosed):            # encontrar vértice mais proximo ao ultimo vertice
+                    if a[1] not in path[1:]:    # 
+                        choosed = a[1]
+                        path.append(a[1])       # inserir o vértice após o último vértice do caminho
+                        break
+            if (aux == len(path)):              # caso não inseriu nenhum vertice o grafo não é hamiltoniano
+                self.ham = False
+                break
 
 
-@profile
+        return path
+
+    def assembly(self):
+        contig = self.Vertices[0].seq
+        last = self.Vertices[0].seq
+        for i in self.caminho_ham:
+            if i != 0:
+                similaridade = int(pairwise2.align.globalxx(self.Vertices[i].seq, last, score_only=True))
+                contig += self.Vertices[i].seq[similaridade:]
+            last = self.Vertices[i].seq
+                
+        return contig
+
+
+
+
+#   @profile
 def main():
     olc = OLC(["AGCCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTC", 
             "GCCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCG", 
-            "CCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCGT"])
+            "CCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCGT", 
+            "CTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCGTA",
+            "TCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCGTAG" 
+            ])
+    print(olc.caminho_ham)
+    print(olc.assembly())
     #print(olc.Vertices[0].seq)
     #for colnum, edge in enumerate(edges):
     #    print()
