@@ -72,8 +72,8 @@ class OLC:
         return path
 
     def assembly(self):
-        contig = self.Vertices[0].seq
-        last = self.Vertices[0].seq
+        contig = self.Vertices[0].seq   # adiciona a sequencia inicial 
+        last = self.Vertices[0].seq     # guarda a ultima sequencia vista
         for i in self.caminho_ham:
             if i != 0:
                 similaridade = int(pairwise2.align.globalxx(self.Vertices[i].seq, last, score_only=True))
