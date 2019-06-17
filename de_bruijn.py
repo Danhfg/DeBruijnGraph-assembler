@@ -21,7 +21,7 @@ def deBruijn(leituras, kmers):
         while i+kmers < len(leitura):
             v1 = leitura[i:i+kmers]
             v2 = leitura[i+1:i+kmers+1]
-            if v1 in arestas.keys():
+            if v1 in arestas.keys():                
                 vertices[v1].saida += 1
                 arestas[v1] += [Aresta(v2)]
             else:
