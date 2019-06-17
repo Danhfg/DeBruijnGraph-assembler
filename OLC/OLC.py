@@ -40,6 +40,8 @@ class OLC:
             else:
                 self.Vertices[0] = (Vertice(read))
 
+        find_hamiltonian_path([self.Vertices, self.Arestas])
+
 def isHamiltonian(vert):
     for e in vert:
         if e.marcado == false:
