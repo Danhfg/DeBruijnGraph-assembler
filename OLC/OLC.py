@@ -53,12 +53,10 @@ class OLC:
         # Escolhe um vértice inicial
         path = [0]
         choosed = 0
-        print(self.length)
 
         while len(path) < self.length:          # termina quando o ciclo for hamiltoniano
             aux = len(path)
             for a in self.Arestas:
-                print(a, choosed)
                 if(a[0] == choosed):            # encontrar vértice mais proximo ao ultimo vertice
                     if a[1] not in path[1:]:    # 
                         choosed = a[1]
@@ -85,7 +83,7 @@ class OLC:
 
 
 
-#   @profile
+@profile
 def main():
     olc = OLC(["AGCCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTC", 
             "GCCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCG", 
@@ -93,12 +91,8 @@ def main():
             "CTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCGTA",
             "TCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCGTAG" 
             ])
-    print(olc.caminho_ham)
+#    print(olc.caminho_ham)
     print(olc.assembly())
-    #print(olc.Vertices[0].seq)
-    #for colnum, edge in enumerate(edges):
-    #    print()
-    #print(olc.Arestas)
 
 if __name__ == '__main__':
     main()
