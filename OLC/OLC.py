@@ -1,4 +1,8 @@
+import sys
+from Bio import SeqIO
 from Bio import pairwise2
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
 # Realiza a leitura das reads a partir de um arquivo com o formato FASTA. 
 def read_data(filename):
     f = open(filename, 'r')
@@ -28,7 +32,7 @@ class OLC:
         self.Vertices = {}
         self.Arestas = []
         self.length = 0
-        #reads = read_data("short.fasta")
+        reads = read_data("short.fasta")
         for read in reads:
             if self.Vertices != {}:
                 aux = len(self.Vertices.keys())
@@ -85,6 +89,7 @@ class OLC:
 
 @profile
 def main():
+    filename = sys.argv[1]
     olc = OLC(["AGCCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTC", 
             "GCCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCG", 
             "CCTCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCGT", 
@@ -92,7 +97,9 @@ def main():
             "TCGGACTATAAACACTCCGGCCGTACGAGAACTACTCTAGATCGCTGAAGCAAATCTTAGTCTCCTTTGAAGCTTCGTAG" 
             ])
 #    print(olc.caminho_ham)
-    print(olc.assembly())
+    contig = olc.assembly()
+    SeqIO.write(SeqRecord(Seq(contig), id="UNKNOWN", description='sequence assembled ' ), filename, "fasta")
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) > 1:
+        main()
